@@ -394,6 +394,10 @@ void enable_sources(vw& all, bool quiet, size_t passes)
     if (setsockopt(all.p->bound_sock, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) < 0)
       cerr << "setsockopt SO_REUSEADDR: " << strerror(errno) << endl;
 
+    int ss_opt = 1;
+    if (setsockopt(all.p->bound_sock, IPPROTO_TCP, TCP_NODELAY, &ss_opt, sizeof(ss_opt))> 0)
+      cerr << "setsockopt TCP_NODELAY: " << strerror(errno) << endl;
+
     // Enable TCP Keep Alive to prevent socket leaks
     int enableTKA = 1;
     if (setsockopt(all.p->bound_sock, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableTKA, sizeof(enableTKA)) < 0)
