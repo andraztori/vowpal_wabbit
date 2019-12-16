@@ -53,6 +53,9 @@ int open_socket(const char* host)
   if (sd == -1)
     THROWERRNO("socket");
 
+ int ss_opt = 1;
+  setsockopt(sd, IPPROTO_TCP, TCP_NODELAY, &ss_opt, sizeof(ss_opt));
+
   sockaddr_in far_end;
   far_end.sin_family = AF_INET;
   far_end.sin_port = htons(port);

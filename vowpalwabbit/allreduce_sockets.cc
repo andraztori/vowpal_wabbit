@@ -93,6 +93,10 @@ socket_t getsock()
   if (setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, (char*)&enableTKA, sizeof(enableTKA)) < 0)
     cerr << "setsockopt SO_KEEPALIVE: " << strerror(errno) << endl;
 
+  int tcpNoDelay = 1;
+  if (setsockopt(sock, SOL_SOCKET, TCP_NODELAY, (char*)&tcpNoDelay, sizeof(tcpNoDelay)) < 0)
+    cerr << "setsockopt TCP_NODELAY: " << strerror(errno) << endl;
+
   return sock;
 }
 

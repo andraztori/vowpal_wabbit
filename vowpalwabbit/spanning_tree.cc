@@ -92,6 +92,10 @@ SpanningTree::SpanningTree() : m_stop(false), port(26543), m_future(nullptr)
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) < 0)
     THROWERRNO("setsockopt SO_REUSEADDR: ");
 
+  int tcpNoDelay = 1;
+  if (setsockopt(sock, SOL_SOCKET, TCP_NODELAY, (char*)&tcpNoDelay, sizeof(tcpNoDelay)) < 0)
+    THROWERRNO("setsockopt TCP_NODELAY: ");
+
   sockaddr_in address;
   address.sin_family = AF_INET;
   address.sin_addr.s_addr = htonl(INADDR_ANY);
